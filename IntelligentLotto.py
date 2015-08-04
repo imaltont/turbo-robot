@@ -55,8 +55,10 @@ def update_list(lotto_tall, chosen):
 	for number in lotto_tall:
 		if number[0] in chosen:
 			number[2] = 1
+			number[1] += 1
 		else:
 			number[2] += 1
+			number[1] += 1
 
 #gjenta ti ganger per kupong som skal spilles
 def main():
