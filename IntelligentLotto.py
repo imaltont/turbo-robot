@@ -1,3 +1,5 @@
+#Deterministic
+
 lotto_tall = [] #skal inneholde lister
 valgte_rekker = []
 fire = 0
@@ -5,10 +7,10 @@ fem = 0
 seks = 0
 syv = 0
 
-comp_list = [7, 9, 12, 14, 25, 26, 27]
+comp_list = [2, 7, 11, 21, 24, 28, 34]
 
 #Hente fra fil
-with open('LottoResultat-tal.txt') as tall:
+with open('LottoResultat-tal-mtil.txt') as tall:
 	temp_list = []
 	for line in tall:
 		temp_list = line.split('|')
@@ -77,10 +79,10 @@ def update_list(lotto_tall, chosen):
 	for number in lotto_tall:
 		if number[0] in chosen:
 			number[2] = 1
-			#number[1] += 1
+			number[1] += 1
 		else:
 			number[2] += 1
-			#number[1] += 1
+			number[1] += 1
 
 #gjenta ti ganger per kupong som skal spilles
 def main():
@@ -99,9 +101,9 @@ def main():
 
 		print ''
 
-		#print fire
-		#print fem
-		#print seks
-		#print syv
+	print fire
+	print fem
+	print seks
+	print syv
 main()
 #ekstra funksjon for aa oppdatere txt filen med lotto resultat per uke
