@@ -145,5 +145,5 @@ def main():
 	print seks
 	print syv
 	#print seven_counter
-#main()
+#smain()
 #ekstra funksjon for aa oppdatere txt filen med lotto resultat per uke

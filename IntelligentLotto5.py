@@ -1,4 +1,5 @@
 #Non-deterministic after first couple
+#Can not be used without the result, works like IntelligentLotto3 otherwise(with some small changes)
 from random import*
 from IntelligentLotto2 import utility_func2
 
@@ -48,7 +49,69 @@ def partition(A, p, r):
 
 
 #velg de syv med lavest utility
-def the_chosen_ones(util_list, j):
+def random_row(temp_chosen, j):
+	global fem
+	global syv
+	global seks
+	global fire
+	right = 0
+	while temp_chosen in valgte_rekker:
+		temp_util = utility_func2(lotto_tall)
+		temp_chosen = []
+		for i in range(0, 7):
+			while len(temp_chosen) <= i:
+				randi = randint(0, len(temp_util)-1)
+	
+				if temp_util[randi] not in temp_chosen:
+					temp_chosen.append(temp_util[randi])
+				temp_util.pop(randi)
+	temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
+	valgte_rekker.append(temp_chosen)
+	print j, " ", temp_chosen
+	for numb in temp_chosen:
+		if numb in comp_list:
+			right += 1
+	if right == 7:
+		syv += 1
+	elif right == 6:
+		seks += 1
+	elif right == 5:
+		fem += 1
+	elif right == 4:
+		fire += 1
+
+	return True
+def complete_random_row (temp_chosen, j, util_list):
+	global fem
+	global syv
+	global seks
+	global fire
+	right = 0
+	while temp_chosen in valgte_rekker:
+		temp_util = list(util_list)
+		temp_chosen = []
+		for i in range(0, 7):
+			randi = randint(0, len(temp_util)-1)
+			temp_chosen.append(temp_util[randi][1])
+			temp_util.pop(randi)
+		print temp_chosen
+	valgte_rekker.append(temp_chosen)
+	print j, " ", temp_chosen
+	for numb in temp_chosen:
+		if numb in comp_list:
+			right += 1
+	if right == 7:
+		syv += 1
+	elif right == 6:
+		seks += 1
+	elif right == 5:
+		fem += 1
+	elif right == 4:
+		fire += 1
+
+	return True
+
+def the_chosen_ones(util_list, j, k):
 	temp_chosen = []
 	right = 0
 	global fem
@@ -73,35 +136,10 @@ def the_chosen_ones(util_list, j):
 		elif right == 4:
 			fire += 1
 		return True
+	elif (fire+fem+seks+syv)/k > (1/6):
+		return random_row(temp_chosen, j)
 	else:
-		while temp_chosen in valgte_rekker:
-			temp_util = utility_func2(lotto_tall)
-			temp_chosen = []
-			for i in range(0, 7):
-				while len(temp_chosen) <= i:
-					randi = randint(0, len(temp_util)-1)
-
-					if temp_util[randi] not in temp_chosen:
-						temp_chosen.append(temp_util[randi])
-						temp_util.pop(randi)
-			temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
-			print temp_chosen
-		valgte_rekker.append(temp_chosen)
-		print j, " ", temp_chosen
-		for numb in temp_chosen:
-			if numb in comp_list:
-				right += 1
-		if right == 7:
-			syv += 1
-		elif right == 6:
-			seks += 1
-		elif right == 5:
-			fem += 1
-		elif right == 4:
-			fire += 1
-
-		return True
-
+		return complete_random_row(temp_chosen, j, util_list)
 #oppdater listen
 def update_list(lotto_tall, chosen):
 	for number in lotto_tall:
@@ -122,7 +160,7 @@ def main():
 		coupon_number += 1
 		counter = 0
 		while counter < 10:
-			check = the_chosen_ones(quick_sort(utility_func(lotto_tall), 0, len(utility_func(lotto_tall))-1), counter+1)
+			check = the_chosen_ones(quick_sort(utility_func(lotto_tall), 0, len(utility_func(lotto_tall))-1), counter+1, coupon_number)
 			#if (check):
 			counter += 1
 			update_list(lotto_tall, valgte_rekker[len(valgte_rekker)-1])
