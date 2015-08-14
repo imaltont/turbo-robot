@@ -85,7 +85,6 @@ def the_chosen_ones(util_list, j):
 						temp_chosen.append(temp_util[randi])
 						temp_util.pop(randi)
 			temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
-			print temp_chosen
 		valgte_rekker.append(temp_chosen)
 		print j, " ", temp_chosen
 		for numb in temp_chosen:
@@ -135,5 +134,39 @@ def main():
 	print fem
 	print seks
 	print syv
-main()
+#main()
 #ekstra funksjon for aa oppdatere txt filen med lotto resultat per uke
+def update_lotto(row, extra):
+	new_lotto_tall = []
+	with open('LottoResultat-tal-mtil.txt') as tall:
+		lotto_list = []
+		for line in tall:
+			lotto_list = line.split('|')
+			lotto_list[2] = lotto_list[2].replace("\n","")
+			for i in range(0, len(lotto_list)):
+				lotto_list[i] = int(lotto_list[i])
+			new_lotto_tall.append(lotto_list)
+
+	for x in new_lotto_tall:
+		if x[0] in row:
+			x[1] += 1
+			x[2] = 1
+		elif x[0] == extra:
+			x[2] = 1
+		else:
+			x[2] += 1
+
+	with open('LottoResultat-tal-mtil.txt', 'w') as tall:
+		tall.truncate()
+
+		print new_lotto_tall
+		for x in new_lotto_tall:
+			counter = 0
+			for y in x:
+				tall.write(str(y))
+				if counter != 2:
+					tall.write('|')
+				counter += 1
+			tall.write("\n")
+
+update_lotto([2, 7, 11, 21, 24, 28, 34], 6)
