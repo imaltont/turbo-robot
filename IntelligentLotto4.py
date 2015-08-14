@@ -169,4 +169,4 @@ def update_lotto(row, extra):
 				counter += 1
 			tall.write("\n")
 
-update_lotto([2, 7, 11, 21, 24, 28, 34], 6)
+#update_lotto([2, 7, 11, 21, 24, 28, 34], 6)
