@@ -9,7 +9,8 @@ fem = 0
 seks = 0
 syv = 0
 
-comp_list = [2, 7, 11, 21, 24, 28, 34]
+comp_list = [5, 8, 11, 13, 19, 23, 33]
+prev_list = [1, 4, 5, 12, 19, 25, 26]
 
 #Hente fra fil
 with open('LottoResultat-tal-mtil.txt') as tall:
@@ -49,6 +50,7 @@ def partition(A, p, r):
 
 #velg de syv med lavest utility
 def the_chosen_ones(util_list, j):
+	prev_same = 0
 	temp_chosen = []
 	right = 0
 	global fem
@@ -57,8 +59,11 @@ def the_chosen_ones(util_list, j):
 	global fire
 	for i in range(0, 7):
 		temp_chosen.append(util_list[i][1])
+	for numb in temp_chosen:
+			if numb in prev_list:
+				prev_same
 	temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
-	if temp_chosen not in valgte_rekker:
+	if temp_chosen not in valgte_rekker and prev_same < 4:
 		valgte_rekker.append(temp_chosen)
 		print j, " ", temp_chosen
 		for numb in temp_chosen:
@@ -74,7 +79,8 @@ def the_chosen_ones(util_list, j):
 			fire += 1
 		return True
 	else:
-		while temp_chosen in valgte_rekker:
+		while temp_chosen in valgte_rekker and prev_same < 4:
+			prev_same = 0
 			temp_util = utility_func2(lotto_tall)
 			temp_chosen = []
 			for i in range(0, 7):
@@ -85,19 +91,22 @@ def the_chosen_ones(util_list, j):
 						temp_chosen.append(temp_util[randi])
 						temp_util.pop(randi)
 			temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
-		valgte_rekker.append(temp_chosen)
-		print j, " ", temp_chosen
-		for numb in temp_chosen:
-			if numb in comp_list:
-				right += 1
-		if right == 7:
-			syv += 1
-		elif right == 6:
-			seks += 1
-		elif right == 5:
-			fem += 1
-		elif right == 4:
-			fire += 1
+			for numb in temp_chosen:
+				if numb in prev_list:
+					prev_same
+	valgte_rekker.append(temp_chosen)
+	print j, " ", temp_chosen
+	for numb in temp_chosen:
+		if numb in comp_list:
+			right += 1
+	if right == 7:
+		syv += 1
+	elif right == 6:
+		seks += 1
+	elif right == 5:
+		fem += 1
+	elif right == 4:
+		fire += 1
 
 		return True
 
@@ -134,7 +143,7 @@ def main():
 	print fem
 	print seks
 	print syv
-#main()
+main()
 #ekstra funksjon for aa oppdatere txt filen med lotto resultat per uke
 def update_lotto(row, extra):
 	new_lotto_tall = []
@@ -169,4 +178,4 @@ def update_lotto(row, extra):
 				counter += 1
 			tall.write("\n")
 
-#update_lotto([2, 7, 11, 21, 24, 28, 34], 6)
+#update_lotto([1, 4, 5, 12, 19, 25, 26], 31)
