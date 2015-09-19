@@ -10,7 +10,7 @@ seks = 0
 syv = 0
 
 comp_list = [5, 8, 11, 13, 19, 23, 33]
-prev_list = [1, 4, 5, 12, 19, 25, 26]
+prev_list = [5, 8, 11, 13, 19, 23, 33]
 
 #Hente fra fil
 with open('LottoResultat-tal-mtil.txt') as tall:
@@ -61,9 +61,9 @@ def the_chosen_ones(util_list, j):
 		temp_chosen.append(util_list[i][1])
 	for numb in temp_chosen:
 			if numb in prev_list:
-				prev_same
+				prev_same += 1
 	temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
-	if temp_chosen not in valgte_rekker and prev_same < 4:
+	if temp_chosen not in valgte_rekker and prev_same <= 3:
 		valgte_rekker.append(temp_chosen)
 		print j, " ", temp_chosen
 		for numb in temp_chosen:
@@ -79,7 +79,7 @@ def the_chosen_ones(util_list, j):
 			fire += 1
 		return True
 	else:
-		while temp_chosen in valgte_rekker and prev_same < 4:
+		while temp_chosen in valgte_rekker or prev_same > 3:
 			prev_same = 0
 			temp_util = utility_func2(lotto_tall)
 			temp_chosen = []
@@ -93,7 +93,7 @@ def the_chosen_ones(util_list, j):
 			temp_chosen = quick_sort(temp_chosen, 0, len(temp_chosen)-1)
 			for numb in temp_chosen:
 				if numb in prev_list:
-					prev_same
+					prev_same += 1
 	valgte_rekker.append(temp_chosen)
 	print j, " ", temp_chosen
 	for numb in temp_chosen:
@@ -108,7 +108,7 @@ def the_chosen_ones(util_list, j):
 	elif right == 4:
 		fire += 1
 
-		return True
+	return True
 
 #oppdater listen
 def update_list(lotto_tall, chosen):
@@ -178,4 +178,4 @@ def update_lotto(row, extra):
 				counter += 1
 			tall.write("\n")
 
-#update_lotto([1, 4, 5, 12, 19, 25, 26], 31)
+#update_lotto([5, 8, 11, 13, 19, 23, 33], 31)
